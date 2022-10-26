@@ -1,15 +1,31 @@
 import { ControlsContext } from '../context';
-import { Control, UseControl } from '../type';
+import { initialKeys, UseDefaultControl } from '../type';
 import { uid } from '../utils';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { pick } from '../context/subject';
 
-type initialKeys<T> = Exclude<keyof T, '' | 'type' | 'id' | 'value' | 'setValue'>;
+export interface BaseControl<T> {
+  id: string;
+  type: string;
+  name: string;
+  defaultValue: T;
+  value: T;
+  setValue: (newValue: T) => void;
+}
+
+export interface StringControl extends BaseControl<string> {
+  type: 'string';
+  maxLength?: number;
+  minLength?: number;
+  regex?: RegExp;
+}
+
+export type Control = StringControl;
 
 export const createControlHook = <T extends Control>(
   type: T['type'],
   updateOnChange: Array<keyof Pick<T, initialKeys<T>>> = [],
-): UseControl<T> => {
+): UseDefaultControl<T> => {
   return control => {
     const { deleteControl, createControl, updateControl } = useContext(ControlsContext);
     const [value, setValue] = useState(control.defaultValue);

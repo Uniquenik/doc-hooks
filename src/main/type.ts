@@ -1,30 +1,7 @@
-import { Subject } from './context/subject';
+import { Control } from './controlHooks';
 
-export interface BaseControl<T> {
-  id: string;
-  type: string;
-  name: string;
-  defaultValue: T;
-  value: T;
-  setValue: (newValue: T) => void;
-}
+export type initialKeys<T> = Exclude<keyof T, '' | 'type' | 'id' | 'value' | 'setValue'>;
 
-export interface StringControl extends BaseControl<string> {
-  type: 'string';
-  maxLength?: number;
-  minLength?: number;
-  washRegex?: RegExp;
-}
-
-export type Control = StringControl;
-
-export type ControlsContextType = {
-  controls: Subject<Record<string, Control>>;
-  createControl: (id: string, control: Control) => void;
-  updateControl: (id: string, partial: Partial<Control>) => void;
-  deleteControl: (id: string) => void;
-};
-
-export type UseControl<ControlType extends Control, OmitTypes extends string = ''> = (
-  control: Omit<ControlType, 'type' | 'id' | 'value' | 'setValue' | OmitTypes>,
+export type UseDefaultControl<ControlType extends Control> = (
+  control: Pick<ControlType, initialKeys<ControlType>>,
 ) => [ControlType['value'], ControlType['setValue']];

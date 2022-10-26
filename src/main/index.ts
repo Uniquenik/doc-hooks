@@ -1,3 +1,3 @@
-export { MainScreen } from './mainScreen';
+export { ReactDocHooks } from './reactDocHooks';
 
 export { useStringControl } from './controlHooks/useStringControl';

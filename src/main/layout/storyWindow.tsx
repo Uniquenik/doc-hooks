@@ -32,9 +32,6 @@ export const StoryWindow: FC<StoryWindowProps> = ({ stories, defaultStoryKey }) 
     >
       <ActiveStory Story={stories[activeStoryKey]} />
       <ControlLayout
-        storiesList={Object.entries(stories)}
-        setActiveStoryKey={setActiveStoryKey}
-        activeStoryKey={activeStoryKey}
       />
     </AppShell>
   );

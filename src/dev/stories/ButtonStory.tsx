@@ -8,7 +8,7 @@ export const ButtonStory: FC = () => {
     name: 'String control',
     minLength: 3,
     maxLength: 1000,
-    washRegex: undefined,
+    regex: undefined,
   });
 
   return (

@@ -7,12 +7,12 @@ export class Subject<T> {
     this.value = value;
   }
 
-  //при изменении трогаем всех подписчиков
   next = (value: T) => {
     this.value = value;
     this.subscribers.forEach(sub => sub(value));
   };
 
+  //on change execute callbacks
   subscribe = (callback: (value: T) => void) => {
     this.subscribers.push(callback);
     //unsubscribe

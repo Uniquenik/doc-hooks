@@ -3,16 +3,16 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider, MantineThemeOverride
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorScreen } from './layout/components/errorScreen';
 import { StoryWindow } from './layout/storyWindow';
-import { ControlsContext } from './context';
-import { Control, ControlsContextType } from './type';
+import { ControlsContext, ControlsContextType } from './context';
 import { useCreateSubject } from './context/useSubject';
+import { Control } from './controlHooks';
 
-interface IComponentsStoriesProps<T> {
+interface IReactDocHooksProps<T> {
   stories: T;
   theme?: MantineThemeOverride;
 }
 
-export const MainScreen = <T extends Record<string, FC>>(props: IComponentsStoriesProps<T>) => {
+export const ReactDocHooks = <T extends Record<string, FC>>(props: IReactDocHooksProps<T>) => {
   const { theme, stories } = props;
 
   //Change theme (dark/light)

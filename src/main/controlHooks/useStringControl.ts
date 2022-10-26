@@ -1,15 +1,14 @@
-import { StringControl } from '../type';
-import { createControlHook } from './index';
+import { createControlHook, StringControl } from './index';
 
 type UseStringControlParams = {
   name: string;
   defaultValue: string;
   minLength?: number;
   maxLength?: number;
-  washRegex?: RegExp;
+  regex?: RegExp;
 };
 
 type UseStringControlReturn = [string, (newValue: string) => void];
 
 export const useStringControl: (params: UseStringControlParams) => UseStringControlReturn =
-  createControlHook<StringControl>('string', ['maxLength', 'minLength', 'washRegex']);
+  createControlHook<StringControl>('string', ['maxLength', 'minLength', 'regex']);

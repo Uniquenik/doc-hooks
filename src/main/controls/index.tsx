@@ -1,6 +1,6 @@
-import { Control } from '../type';
 import { RenderStringControl } from './stringControl';
 import { FC } from 'react';
+import { Control } from '../controlHooks';
 
 const controlMap: Record<Control['type'], FC<any>> = {
   string: RenderStringControl,
