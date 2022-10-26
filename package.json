@@ -1,0 +1,58 @@
+{
+  "name": "doc-hooks",
+  "version": "0.0.8",
+  "description": "description",
+  "author": "Nikita Vanyuchenko",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Uniquenik/components-stories.git"
+  },
+  "scripts": {
+    "dev": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build": "rm -rf dist && mkdir dist && rollup -c && tsc",
+    "release": "yarn build && npm publish"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@mantine/core": "^5.6.1",
+    "@mantine/hooks": "^5.6.1",
+    "react-error-boundary": "^3.1.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "8.3.3",
+    "@rollup/plugin-url": "^7.0.0",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "prettier": "2.3.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "^5.0.0",
+    "rollup": "2.79.1",
+    "typescript": "^4.8.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
