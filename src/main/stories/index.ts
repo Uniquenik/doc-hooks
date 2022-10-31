@@ -7,7 +7,6 @@ export const createStories = (items: Omit<StoryItem, 'id'>[]): StoryItem[] => {
       id: uid(),
       ...item,
     };
-    console.log(item.component);
 
     return storyItem;
   });

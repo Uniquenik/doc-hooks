@@ -4,6 +4,7 @@ import { UnstyledButton } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { StoryItem } from '../type';
 import StoriesHelper from '../stories/storiesHelper';
+import { IconSearch } from '@tabler/icons';
 
 interface INavbarProps {
   activeKey: string;
@@ -13,10 +14,11 @@ interface INavbarProps {
 
 export const NavigationLayout = (props: INavbarProps) => {
   const { activeKey, setActiveKey } = props;
-  const { classes, cx } = useStyles();
 
   const [searchValue, setSearchValue] = useDebouncedState('', 200);
   const [searchResults, setSearchResults] = useState<StoryItem[]>(props.storiesList);
+
+  const { classes, cx } = useStyles();
 
   //Effects
   useEffect(() => {
@@ -39,7 +41,14 @@ export const NavigationLayout = (props: INavbarProps) => {
   //Render
   return (
     <div className={classes.navbar}>
-      <TextInput label="Search" defaultValue={searchValue} pb={10} onChange={handleChangeSearchValue} />
+      <TextInput
+        px={4}
+        py={16}
+        variant={'filled'}
+        defaultValue={searchValue}
+        icon={<IconSearch size={18} />}
+        onChange={handleChangeSearchValue}
+      />
       {searchResults.map((item, index) => {
         return (
           <Navbar.Section key={index} onClick={() => handleItemClick(item.id)}>
@@ -58,15 +67,14 @@ const useStyles = createStyles(theme => ({
     width: '100%',
     height: '100%',
     overflow: 'auto',
-    paddingRight: 16,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   link: {
     boxSizing: 'border-box',
     display: 'block',
     textDecoration: 'none',
-    borderTopRightRadius: theme.radius.md,
-    borderBottomRightRadius: theme.radius.md,
+    borderTopRightRadius: theme.radius.lg,
+    borderBottomRightRadius: theme.radius.lg,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     padding: `0 ${theme.spacing.md}px`,
     fontSize: theme.fontSizes.sm,
@@ -74,6 +82,7 @@ const useStyles = createStyles(theme => ({
     fontWeight: 500,
     height: 44,
     width: '100%',
+    paddingLeft: 16,
     lineHeight: '44px',
 
     '&:hover': {

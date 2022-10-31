@@ -1,10 +1,12 @@
 import React, { ChangeEventHandler, FC } from 'react';
-import { Text, Textarea } from '@mantine/core';
+import { Group, Text, Textarea } from '@mantine/core';
 import { BaseControl, createControlHook } from './index';
+import { ControlComponent } from './components/controlComponent';
 
 type UseStringControlParams = {
   name: string;
   defaultValue: string;
+  rowsCount?: number;
   minLength?: number;
   maxLength?: number;
   regex?: RegExp;
@@ -12,6 +14,7 @@ type UseStringControlParams = {
 
 export interface StringControl extends BaseControl<string> {
   type: 'string';
+  rowsCount?: number;
   maxLength?: number;
   minLength?: number;
   regex?: RegExp;
@@ -20,8 +23,9 @@ export interface StringControl extends BaseControl<string> {
 type UseStringControlReturn = [string, (newValue: string) => void];
 
 export const RenderStringControl: FC<StringControl> = props => {
-  const { name, value, setValue, minLength, maxLength, regex } = props;
+  const { name, value, setValue, minLength, maxLength, rowsCount, regex } = props;
 
+  //Handlers
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = e => {
     const updated: string = regex ? e.target.value.replace(regex, '') : e.target.value;
     if (maxLength && updated.length > maxLength) return;
@@ -29,11 +33,16 @@ export const RenderStringControl: FC<StringControl> = props => {
     setValue(updated);
   };
 
+  //Render
   return (
-    <>
-      <Text>{name}</Text>
-      <Textarea value={value} onChange={onChange} />
-    </>
+    <Group py={16} px={4}>
+      <ControlComponent
+        leftSide={<Text size={'lg'}>{name}</Text>}
+        rightSide={
+          <Textarea size={'sm'} value={value} variant={'filled'} minRows={rowsCount || 3} onChange={onChange} />
+        }
+      />
+    </Group>
   );
 };
 

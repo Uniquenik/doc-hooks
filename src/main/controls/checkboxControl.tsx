@@ -1,6 +1,7 @@
 import { BaseControl, createControlHook } from './index';
-import { ChangeEventHandler, FC } from 'react';
-import { Checkbox, Text } from '@mantine/core';
+import React, { ChangeEventHandler, FC } from 'react';
+import { Checkbox, Group, Stack, Text } from '@mantine/core';
+import { ControlComponent } from './components/controlComponent';
 
 type UseCheckboxControlParams = {
   name: string;
@@ -18,7 +19,10 @@ export interface CheckboxControl extends BaseControl<string[]> {
 export const useCheckboxControl: (params: UseCheckboxControlParams) => UseCheckboxControlReturn =
   createControlHook<CheckboxControl>('checkbox');
 
-export const RenderCheckboxControl: FC<CheckboxControl> = ({ name, value, setValue, options }) => {
+export const RenderCheckboxControl: FC<CheckboxControl> = props => {
+  const { name, value, setValue, options } = props;
+
+  //Handlers
   const onChange: ChangeEventHandler<HTMLInputElement> = e => {
     const { checked } = e.currentTarget;
 
@@ -29,20 +33,25 @@ export const RenderCheckboxControl: FC<CheckboxControl> = ({ name, value, setVal
     }
   };
 
+  //Render
   return (
-    <div>
-      <Text>{name}</Text>
-      <div>
-        {options.map(option => (
-          <Checkbox
-            name={option}
-            label={<Text>{option}</Text>}
-            key={option}
-            checked={value.includes(option)}
-            onChange={onChange}
-          />
-        ))}
-      </div>
-    </div>
+    <Stack py={16} px={4}>
+      <ControlComponent
+        leftSide={<Text size={'lg'}>{name}</Text>}
+        rightSide={
+          <Group>
+            {options.map(option => (
+              <Checkbox
+                key={option}
+                value={option}
+                label={option}
+                checked={value.includes(option)}
+                onChange={onChange}
+              />
+            ))}
+          </Group>
+        }
+      />
+    </Stack>
   );
 };

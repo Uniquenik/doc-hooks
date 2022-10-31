@@ -16,22 +16,22 @@ export type StoryWindowProps<T> = {
 
 export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
   const { stories, defaultStoryKey } = props;
-  const [open, setOpen] = useState(true);
 
   const isSM = useMediaQuery('(min-width: 800px)');
 
+  const [open, setOpen] = useState(true);
   const [activeStoryKey, setActiveStoryKey] = useState<string>(defaultStoryKey);
 
   const { classes } = useStyles();
 
   return (
-    <AppShell header={<HeaderLayout open={open} onClick={() => setOpen(!open)} />}>
+    <AppShell padding={0} header={<HeaderLayout open={open} onClick={() => setOpen(!open)} />}>
       <Allotment minSize={200} separator={open}>
         <Allotment.Pane preferredSize={250} visible={open}>
           <NavigationLayout activeKey={activeStoryKey} setActiveKey={setActiveStoryKey} storiesList={stories} />
         </Allotment.Pane>
-        <Allotment.Pane visible={isSM}>
-          <Allotment vertical={true} minSize={50}>
+        <Allotment.Pane minSize={300} visible={isSM || !open}>
+          <Allotment vertical={true} minSize={100}>
             <ActiveStory Story={StoriesHelper.getStoryById(activeStoryKey, stories)?.component} />
             <div className={classes.containPane}>
               <ControlLayout storiesList={stories} activeStoryKey={activeStoryKey} />

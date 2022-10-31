@@ -1980,6 +1980,11 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@tabler/icons@^1.109.0":
+  version "1.109.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.109.0.tgz#11626c3fc097f2f70c4c197e4b9909fb05380752"
+  integrity sha512-B0YetE4pB6HY2Wa57v/LJ3NgkJzKYPze4U0DurIqPoKSptatKv2ga76FZSkO6EUpkYfHMtGPM6QjpJljfuCmAQ==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

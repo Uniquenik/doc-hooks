@@ -8,6 +8,7 @@ export type ControlsContextType = {
   //если Partial - ругается, что используемое свойство может быть undefined
   updateControl: (id: string, partial: { [P in keyof Control]?: Control[P] }) => void;
   deleteControl: (id: string) => void;
+  inContext: boolean;
 };
 
 export const ControlsContext = createContext<ControlsContextType>({
@@ -15,4 +16,5 @@ export const ControlsContext = createContext<ControlsContextType>({
   updateControl: () => {},
   deleteControl: () => {},
   createControl: () => {},
+  inContext: false,
 });

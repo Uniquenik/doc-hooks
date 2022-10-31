@@ -1,5 +1,6 @@
 import React from 'react';
-import { Burger, createStyles, Group, Header, useMantineColorScheme, UnstyledButton, Text } from '@mantine/core';
+import { Burger, createStyles, Group, Header, useMantineColorScheme, UnstyledButton } from '@mantine/core';
+import { IconMoon, IconSun } from '@tabler/icons';
 
 interface IHeaderProps {
   open: boolean;
@@ -7,8 +8,9 @@ interface IHeaderProps {
 }
 
 export const HeaderLayout: React.FC<IHeaderProps> = props => {
-  const { classes } = useStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+
+  const { classes } = useStyles();
 
   //Render
   return (
@@ -18,7 +20,7 @@ export const HeaderLayout: React.FC<IHeaderProps> = props => {
           <Burger opened={props.open} onClick={props.onClick} size="sm" />
         </Group>
         <UnstyledButton onClick={() => toggleColorScheme()}>
-          <Text size="sm">{colorScheme === 'light' ? 'Dark' : 'Light'} theme</Text>
+          {colorScheme === 'light' ? <IconMoon /> : <IconSun />}
         </UnstyledButton>
       </div>
     </Header>

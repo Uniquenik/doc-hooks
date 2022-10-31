@@ -17,7 +17,7 @@ export const ActiveStory: FC<ActiveStoryProps> = props => {
       <ErrorBoundary
         fallbackRender={({ error, resetErrorBoundary }) => <ErrorScreen error={error} tryAgain={resetErrorBoundary} />}
       >
-        {Story && <Story />}
+        {Story ? <Story /> : null}
       </ErrorBoundary>
     </div>
   );
@@ -28,5 +28,6 @@ const useStyles = createStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
 }));
