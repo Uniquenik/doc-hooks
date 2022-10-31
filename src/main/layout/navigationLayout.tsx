@@ -1,11 +1,13 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { createStyles, Navbar, TextInput } from '@mantine/core';
 import { UnstyledButton } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
+import { StoryItem } from '../type';
+import StoriesHelper from '../stories/storiesHelper';
 
 interface INavbarProps {
   activeKey: string;
-  storiesList: Array<[string, FC]>;
+  storiesList: Array<StoryItem>;
   setActiveKey: (value: string) => void;
 }
 
@@ -14,12 +16,12 @@ export const NavigationLayout = (props: INavbarProps) => {
   const { classes, cx } = useStyles();
 
   const [searchValue, setSearchValue] = useDebouncedState('', 200);
-  const [searchResults, setSearchResults] = useState<Array<[string, FC]>>(props.storiesList);
+  const [searchResults, setSearchResults] = useState<StoryItem[]>(props.storiesList);
 
   //Effects
   useEffect(() => {
     if (searchValue !== '') {
-      setSearchResults(props.storiesList.filter(item => item[0].toLowerCase().includes(searchValue.toLowerCase())));
+      setSearchResults(StoriesHelper.searchStory(searchValue, props.storiesList));
       return;
     }
     setSearchResults(props.storiesList);
@@ -36,23 +38,27 @@ export const NavigationLayout = (props: INavbarProps) => {
 
   //Render
   return (
-    <Navbar height={840} width={{ sm: 300 }} pt={16} className={classes.navbar}>
+    <div className={classes.navbar}>
       <TextInput label="Search" defaultValue={searchValue} pb={10} onChange={handleChangeSearchValue} />
       {searchResults.map((item, index) => {
         return (
-          <Navbar.Section key={index} onClick={() => handleItemClick(item[0])}>
-            <UnstyledButton className={cx(classes.link, { [classes.linkActive]: item[0] === activeKey })}>
-              {item[0]}
+          <Navbar.Section key={index} onClick={() => handleItemClick(item.id)}>
+            <UnstyledButton className={cx(classes.link, { [classes.linkActive]: item.id === activeKey })}>
+              {item.name}
             </UnstyledButton>
           </Navbar.Section>
         );
       })}
-    </Navbar>
+    </div>
   );
 };
 
 const useStyles = createStyles(theme => ({
   navbar: {
+    width: '100%',
+    height: '100%',
+    overflow: 'auto',
+    paddingRight: 16,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   link: {

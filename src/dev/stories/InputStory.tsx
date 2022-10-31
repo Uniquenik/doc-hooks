@@ -16,3 +16,11 @@ export const InputStory: FC = () => {
     </div>
   );
 };
+
+export const InputStoryMarkdown: string = `## Заголовок
+    текст
+
+  -список
+
+  -список
+`;

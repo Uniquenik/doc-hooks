@@ -1,12 +1,15 @@
 import React from 'react';
 import { ReactDocHooks } from '../main';
-import { InputStory } from './stories/InputStory';
 import { ButtonStory } from './stories/ButtonStory';
+import { InputStory, InputStoryMarkdown } from './stories/InputStory';
+import { createStories } from '../main/stories';
 
-const stories = {
-  ButtonStory,
-  InputStory,
-};
+import ButtonMD from './stories/ButtonMarkdown.md';
+
+const stories = createStories([
+  { name: 'Кнопка', component: ButtonStory, markdownFile: ButtonMD },
+  { name: 'Инпут', component: InputStory, markdownString: InputStoryMarkdown },
+]);
 
 export const App = () => (
   <>

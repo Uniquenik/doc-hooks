@@ -1,6 +1,23 @@
 import React, { ChangeEventHandler, FC } from 'react';
 import { Text, Textarea } from '@mantine/core';
-import { StringControl } from '../controlHooks';
+import { BaseControl, createControlHook } from './index';
+
+type UseStringControlParams = {
+  name: string;
+  defaultValue: string;
+  minLength?: number;
+  maxLength?: number;
+  regex?: RegExp;
+};
+
+export interface StringControl extends BaseControl<string> {
+  type: 'string';
+  maxLength?: number;
+  minLength?: number;
+  regex?: RegExp;
+}
+
+type UseStringControlReturn = [string, (newValue: string) => void];
 
 export const RenderStringControl: FC<StringControl> = props => {
   const { name, value, setValue, minLength, maxLength, regex } = props;
@@ -19,3 +36,6 @@ export const RenderStringControl: FC<StringControl> = props => {
     </>
   );
 };
+
+export const useStringControl: (params: UseStringControlParams) => UseStringControlReturn =
+  createControlHook<StringControl>('string', ['maxLength', 'minLength', 'regex']);

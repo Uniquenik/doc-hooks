@@ -1,8 +1,11 @@
+import { StringControl } from './stringControl';
+
 import { ControlsContext } from '../context';
 import { initialKeys, UseDefaultControl } from '../type';
 import { uid } from '../utils';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { pick } from '../context/subject';
+import { CheckboxControl } from './checkboxControl';
 
 export interface BaseControl<T> {
   id: string;
@@ -13,14 +16,7 @@ export interface BaseControl<T> {
   setValue: (newValue: T) => void;
 }
 
-export interface StringControl extends BaseControl<string> {
-  type: 'string';
-  maxLength?: number;
-  minLength?: number;
-  regex?: RegExp;
-}
-
-export type Control = StringControl;
+export type Control = StringControl | CheckboxControl;
 
 export const createControlHook = <T extends Control>(
   type: T['type'],

@@ -1,6 +1,8 @@
+import { Button } from '@mantine/core';
 import * as React from 'react';
 import { FC } from 'react';
 import { useStringControl } from '../../main';
+import { useCheckboxControl } from '../../main/controls/checkboxControl';
 
 export const ButtonStory: FC = () => {
   const [stringControl] = useStringControl({
@@ -11,9 +13,17 @@ export const ButtonStory: FC = () => {
     regex: undefined,
   });
 
+  const [value] = useCheckboxControl({
+    defaultValue: ['Disabled'],
+    name: 'Button style',
+    options: ['Disabled', 'Compact'],
+  });
+
+  console.log(value);
+
   return (
     <div>
-      <button>{stringControl}</button>
+      <Button disabled={value.includes('Disabled')}>{stringControl}</Button>
     </div>
   );
 };

@@ -29,7 +29,9 @@
     "@emotion/react": "^11.10.4",
     "@mantine/core": "^5.6.1",
     "@mantine/hooks": "^5.6.1",
-    "react-error-boundary": "^3.1.4"
+    "allotment": "^1.17.0",
+    "react-error-boundary": "^3.1.4",
+    "react-markdown": "^8.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "8.3.3",

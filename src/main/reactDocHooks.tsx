@@ -1,18 +1,22 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ColorScheme, ColorSchemeProvider, MantineProvider, MantineThemeOverride } from '@mantine/core';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorScreen } from './layout/components/errorScreen';
 import { StoryWindow } from './layout/storyWindow';
 import { ControlsContext, ControlsContextType } from './context';
 import { useCreateSubject } from './context/useSubject';
-import { Control } from './controlHooks';
+import { Control } from './controls';
+import { StoryItem } from './type';
 
-interface IReactDocHooksProps<T> {
-  stories: T;
+//for split pane
+import 'allotment/dist/style.css';
+
+interface IReactDocHooksProps {
+  stories: Array<StoryItem>;
   theme?: MantineThemeOverride;
 }
 
-export const ReactDocHooks = <T extends Record<string, FC>>(props: IReactDocHooksProps<T>) => {
+export const ReactDocHooks = (props: IReactDocHooksProps) => {
   const { theme, stories } = props;
 
   //Change theme (dark/light)
@@ -22,27 +26,34 @@ export const ReactDocHooks = <T extends Record<string, FC>>(props: IReactDocHook
 
   //Initialize controls
   const [controls, setControls] = useCreateSubject<Record<string, Control>>({});
+  const firstStoryKey = stories[0].id || '';
 
   //Errors inside story components
   const withBoundaryStories = useMemo(() => {
-    const result: Record<string, FC> = {};
-    Object.entries(stories).forEach(([key, Story]) => {
-      result[key] = () => (
-        <ErrorBoundary
-          fallbackRender={({ error, resetErrorBoundary }) => (
-            <ErrorScreen error={error} tryAgain={resetErrorBoundary} storyKey={key} />
-          )}
-        >
-          <Story />
-        </ErrorBoundary>
-      );
+    const result: Array<StoryItem> = [];
+    stories.map(Story => {
+      result.push({
+        ...Story,
+        component: () => (
+          <ErrorBoundary
+            fallbackRender={({ error, resetErrorBoundary }) => (
+              <ErrorScreen error={error} tryAgain={resetErrorBoundary} storyKey={Story.id} />
+            )}
+          >
+            <Story.component />
+          </ErrorBoundary>
+        ),
+      });
     });
     return result;
   }, []);
 
   //Handlers
   const updateControl: ControlsContextType['updateControl'] = useCallback((id, partial) => {
-    setControls(prev => ({ ...prev, [id]: { ...prev[id], ...partial } }));
+    if (id) {
+      //@ts-ignore
+      setControls(prev => ({ ...prev, [id]: { ...prev[id], ...partial } }));
+    }
   }, []);
 
   const createControl: ControlsContextType['createControl'] = useCallback((id, control) => {
@@ -62,7 +73,7 @@ export const ReactDocHooks = <T extends Record<string, FC>>(props: IReactDocHook
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ ...theme, colorScheme }} withGlobalStyles withNormalizeCSS>
         <ControlsContext.Provider value={{ createControl, deleteControl, controls, updateControl }}>
-          <StoryWindow stories={withBoundaryStories} />
+          <StoryWindow stories={withBoundaryStories} defaultStoryKey={firstStoryKey} />
         </ControlsContext.Provider>
       </MantineProvider>
     </ColorSchemeProvider>
