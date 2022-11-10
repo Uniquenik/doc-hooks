@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ControlLayout } from './controlLayout';
 import { ActiveStory } from './components/activeStory';
 import { NavigationLayout } from './navigationLayout';
@@ -11,16 +11,19 @@ import { useMediaQuery } from '@mantine/hooks';
 
 export type StoryWindowProps<T> = {
   stories: Array<StoryItem>;
-  defaultStoryKey: string;
 };
 
 export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
-  const { stories, defaultStoryKey } = props;
+  const { stories } = props;
 
   const isSM = useMediaQuery('(min-width: 800px)');
 
   const [open, setOpen] = useState(true);
-  const [activeStoryKey, setActiveStoryKey] = useState<string>(defaultStoryKey);
+  const [activeStoryKey, setActiveStoryKey] = useState<string>('');
+
+  useEffect(() => {
+    setActiveStoryKey(stories[0].id || '');
+  }, []);
 
   const { classes } = useStyles();
 

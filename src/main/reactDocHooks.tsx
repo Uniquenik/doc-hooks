@@ -14,6 +14,7 @@ import { useLocalStorage } from '@mantine/hooks';
 
 interface IReactDocHooksProps {
   stories: Array<StoryItem>;
+  defaultMarkdown?: string;
   overrideTheme?: MantineThemeOverride;
 }
 
@@ -32,7 +33,6 @@ export const ReactDocHooks = (props: IReactDocHooksProps) => {
 
   //Initialize controls
   const [controls, setControls] = useCreateSubject<Record<string, Control>>({});
-  const firstStoryKey = stories[0].id || '';
 
   //Errors inside story components
   const withBoundaryStories = useMemo(() => {
@@ -55,22 +55,19 @@ export const ReactDocHooks = (props: IReactDocHooksProps) => {
   }, []);
 
   //Handlers
+  const createControl: ControlsContextType['createControl'] = useCallback((id, control) => {
+    setControls(prev => ({ ...prev, [id]: control }));
+  }, []);
+
   const updateControl: ControlsContextType['updateControl'] = useCallback((id, partial) => {
     if (id) {
-      console.log(partial);
       //@ts-ignore
       setControls(prev => ({ ...prev, [id]: { ...prev[id], ...partial } }));
     }
   }, []);
 
-  const createControl: ControlsContextType['createControl'] = useCallback((id, control) => {
-    console.log(control);
-    setControls(prev => ({ ...prev, [id]: control }));
-  }, []);
-
   const deleteControl: ControlsContextType['deleteControl'] = useCallback(id => {
     setControls(prev => {
-      console.log(id);
       const updated = { ...prev };
       delete updated[id];
       return updated;
@@ -82,7 +79,7 @@ export const ReactDocHooks = (props: IReactDocHooksProps) => {
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ ...overrideTheme, colorScheme }} withGlobalStyles withNormalizeCSS>
         <ControlsContext.Provider value={{ createControl, deleteControl, updateControl, controls, inContext: true }}>
-          <StoryWindow stories={withBoundaryStories} defaultStoryKey={firstStoryKey} />
+          <StoryWindow stories={withBoundaryStories} />
         </ControlsContext.Provider>
       </MantineProvider>
     </ColorSchemeProvider>

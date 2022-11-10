@@ -5,7 +5,7 @@ import { ControlRender } from '../controls/controlRender';
 import { StoryItem } from '../type';
 import StoriesHelper from '../stories/storiesHelper';
 import ReactMarkdown from 'react-markdown';
-import { Box, createStyles, ScrollArea } from '@mantine/core';
+import { Box, createStyles, Loader, ScrollArea, Stack } from '@mantine/core';
 
 export type IControlLayoutProps = {
   activeStoryKey: string;
@@ -16,14 +16,17 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
   const { activeStoryKey, storiesList } = props;
 
   const { controls: controlsSubject } = useContext(ControlsContext);
+  console.log(controlsSubject);
   const controls = useSubjectValue(controlsSubject);
 
-  const [markdown, setMarkdown] = useState('');
+  const [markdown, setMarkdown] = useState<string>('');
+  const [markdownLoading, setMarkdownLoading] = useState<boolean>(false);
 
   const { classes } = useStyles();
 
   //Effects
   useEffect(() => {
+    setMarkdownLoading(true);
     const currentItem = StoriesHelper.getStoryById(activeStoryKey, storiesList);
     if (currentItem?.markdownFile) {
       fetch(currentItem.markdownFile)
@@ -32,11 +35,14 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
         })
         .then(text => {
           setMarkdown(text);
+          setMarkdownLoading(false);
         });
     } else if (currentItem?.markdownString) {
       setMarkdown(currentItem.markdownString);
+      setMarkdownLoading(false);
     } else {
       setMarkdown('');
+      setMarkdownLoading(false);
     }
   }, [activeStoryKey]);
 
@@ -47,7 +53,13 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
         {Object.entries(controls).map(([id, control]) => (
           <ControlRender key={id} control={control} />
         ))}
-        <ReactMarkdown children={markdown} />
+        {markdownLoading ? (
+          <Stack align={'center'}>
+            <Loader />
+          </Stack>
+        ) : (
+          <ReactMarkdown children={markdown} />
+        )}
       </Box>
     </ScrollArea>
   );

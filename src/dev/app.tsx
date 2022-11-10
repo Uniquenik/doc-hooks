@@ -13,6 +13,6 @@ const stories = createStories([
 
 export const App = () => (
   <>
-    <ReactDocHooks stories={stories} />
+    <ReactDocHooks stories={stories} defaultMarkdown={InputStoryMarkdown} />
   </>
 );

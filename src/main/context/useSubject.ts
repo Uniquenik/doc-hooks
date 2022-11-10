@@ -9,14 +9,17 @@ export const useSubjectValue = <T>(subject: Subject<T>): T => {
   return state;
 };
 
-type BasicStateAction<S> = (prev: S) => S | S;
+type BasicStateAction<S> = (prev: S) => S;
 
 //Initialize controls
 export const useCreateSubject = <T>(initial: T): [Subject<T>, Dispatch<BasicStateAction<T>>] => {
   const [subject] = useState(() => new Subject(initial));
-  const setSubjectValue = useCallback((callback: BasicStateAction<T>) => {
-    subject.next(callback(subject.getState()));
-  }, []);
+  const setSubjectValue = useCallback(
+    (callback: BasicStateAction<T>) => {
+      subject.next(typeof callback === 'function' ? callback(subject.getState()) : callback);
+    },
+    [subject],
+  );
 
   return [subject, setSubjectValue];
 };

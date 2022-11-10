@@ -3,7 +3,7 @@ import { StringControl } from './stringControl';
 import { ControlsContext } from '../context';
 import { initialKeys, UseDefaultControl } from '../type';
 import { uid } from '../utils';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { pick } from '../context/subject';
 import { CheckboxControl } from './checkboxControl';
 import { RadioControl } from './radioControl';
@@ -35,25 +35,22 @@ export const createControlHook = <T extends Control>(
   return control => {
     const { deleteControl, createControl, updateControl, inContext } = useContext(ControlsContext);
     const [value, setValue] = useState(control.defaultValue);
-    const idRef = useRef<string>();
+    const [idRef, setIdRef] = useState<string>();
 
     useEffect(() => {
-      if (idRef.current) updateControl(idRef.current, { value });
+      if (idRef) updateControl(idRef, { value });
     }, [value]);
 
-    useEffect(
-      () => {
-        if (idRef.current) {
-          updateControl(idRef.current, pick(control as T, updateOnChange as string[]));
-        }
-      },
-      updateOnChange.map(key => control[key]),
-    );
+    useEffect(() => {
+      if (idRef) {
+        updateControl(idRef, pick(control as T, updateOnChange as string[]));
+      }
+    }, []);
 
     useEffect(() => {
       checkContext(inContext);
       const id = uid();
-      idRef.current = id;
+      setIdRef(id);
       createControl(id, { ...control, type, value, setValue, id } as T);
       return () => deleteControl(id);
     }, []);

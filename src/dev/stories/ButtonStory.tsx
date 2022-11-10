@@ -2,11 +2,11 @@ import { Button, ButtonProps, useMantineTheme } from '@mantine/core';
 import * as React from 'react';
 import { FC } from 'react';
 import { useStringControl } from '../../main';
-import { useCheckboxControl } from '../../main/controls/checkboxControl';
-import { useRadioControl } from '../../main/controls/radioControl';
-import { useRecordRadioControl } from '../../main/controls/keyValueRadioControl';
-import { useSwitchControl } from '../../main/controls/switchControl';
-import { useColorRadioControl } from '../../main/controls/colorRadioControl';
+import { useCheckboxControl } from '../../main';
+import { useRadioControl } from '../../main';
+import { useRecordRadioControl } from '../../main';
+import { useSwitchControl } from '../../main';
+import { useColorRadioControl } from '../../main';
 
 export const ButtonStory: FC = () => {
   const theme = useMantineTheme();
@@ -15,7 +15,6 @@ export const ButtonStory: FC = () => {
     defaultValue: 'John',
     name: 'String control',
     rowsCount: 1,
-    regex: undefined,
   });
 
   const [checkboxValue] = useCheckboxControl({
