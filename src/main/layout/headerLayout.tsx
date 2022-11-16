@@ -1,28 +1,46 @@
 import React from 'react';
 import { Burger, createStyles, Group, Header, useMantineColorScheme, UnstyledButton } from '@mantine/core';
-import { IconMoon, IconSun } from '@tabler/icons';
+import { IconMoon, IconSignature, IconSun } from '@tabler/icons';
 
 interface IHeaderProps {
   open: boolean;
+  logo?: JSX.Element;
+  rightContent?: JSX.Element;
   onClick: () => void;
 }
 
 export const HeaderLayout: React.FC<IHeaderProps> = props => {
+  const { logo, rightContent, open, onClick } = props;
+
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const { classes } = useStyles();
 
   //Render
+  const renderDefaultLogo = () => {
+    return (
+      <a href={'https://github.com/Uniquenik/doc-hooks'}>
+        <Group spacing={0} align={'center'}>
+          <IconSignature size={32} />
+        </Group>
+      </a>
+    );
+  };
+
   return (
     <Header height={56} className={classes.header}>
-      <div className={classes.inner}>
-        <Group>
-          <Burger opened={props.open} onClick={props.onClick} size="sm" />
+      <Group position={'apart'} align={'center'} className={classes.headerContent}>
+        <Group spacing={32}>
+          <Burger opened={open} onClick={onClick} size="sm" />
+          {logo ? logo : renderDefaultLogo()}
         </Group>
-        <UnstyledButton onClick={() => toggleColorScheme()}>
-          {colorScheme === 'light' ? <IconMoon /> : <IconSun />}
-        </UnstyledButton>
-      </div>
+        <Group spacing={32}>
+          {rightContent && rightContent}
+          <UnstyledButton onClick={() => toggleColorScheme()}>
+            {colorScheme === 'light' ? <IconMoon /> : <IconSun />}
+          </UnstyledButton>
+        </Group>
+      </Group>
     </Header>
   );
 };
@@ -33,11 +51,8 @@ const useStyles = createStyles(theme => ({
     paddingRight: theme.spacing.md,
   },
 
-  inner: {
+  headerContent: {
     height: 56,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
 
   links: {

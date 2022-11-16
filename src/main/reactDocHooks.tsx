@@ -6,20 +6,20 @@ import { StoryWindow } from './layout/storyWindow';
 import { ControlsContext, ControlsContextType } from './context';
 import { useCreateSubject } from './context/useSubject';
 import { Control } from './controls';
-import { StoryItem } from './type';
 
 //for split pane
 import 'allotment/dist/style.css';
 import { useLocalStorage } from '@mantine/hooks';
+import { ReactDocHooksOptions, StoryItem } from './index';
 
 interface IReactDocHooksProps {
   stories: Array<StoryItem>;
-  defaultMarkdown?: string;
+  options?: ReactDocHooksOptions;
   overrideTheme?: MantineThemeOverride;
 }
 
 export const ReactDocHooks = (props: IReactDocHooksProps) => {
-  const { overrideTheme, stories } = props;
+  const { options, overrideTheme, stories } = props;
 
   //Change theme (dark/light)
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -79,7 +79,7 @@ export const ReactDocHooks = (props: IReactDocHooksProps) => {
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ ...overrideTheme, colorScheme }} withGlobalStyles withNormalizeCSS>
         <ControlsContext.Provider value={{ createControl, deleteControl, updateControl, controls, inContext: true }}>
-          <StoryWindow stories={withBoundaryStories} />
+          <StoryWindow stories={withBoundaryStories} options={options} />
         </ControlsContext.Provider>
       </MantineProvider>
     </ColorSchemeProvider>

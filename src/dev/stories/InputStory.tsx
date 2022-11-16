@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 import { useStringControl } from '../../main';
+import { TextInput } from '@mantine/core';
 
 export const InputStory: FC = () => {
   const [stringControl] = useStringControl({
@@ -12,7 +13,7 @@ export const InputStory: FC = () => {
 
   return (
     <div>
-      <input value={stringControl} />
+      <TextInput value={stringControl} readOnly />
     </div>
   );
 };

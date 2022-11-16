@@ -6,6 +6,7 @@ import { RenderRadioControl } from './radioControl';
 import { RenderKeyValueRadioControl } from './keyValueRadioControl';
 import { RenderSwitchControl } from './switchControl';
 import { RenderColorRadioControl } from './colorRadioControl';
+import { RenderNumberControl } from './numberControl';
 
 const controlMap: Record<Control['type'], FC<any>> = {
   string: RenderStringControl,
@@ -14,6 +15,7 @@ const controlMap: Record<Control['type'], FC<any>> = {
   keyValueRadio: RenderKeyValueRadioControl,
   switch: RenderSwitchControl,
   colorRadio: RenderColorRadioControl,
+  number: RenderNumberControl,
 };
 
 export const ControlRender: FC<{ control: Control }> = ({ control }) => {

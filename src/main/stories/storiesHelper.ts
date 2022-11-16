@@ -1,4 +1,4 @@
-import { StoryItem } from '../type';
+import { StoryItem } from '../index';
 
 export default class StoriesHelper {
   static getStoryById = (id: string, stories: Array<StoryItem>) => {

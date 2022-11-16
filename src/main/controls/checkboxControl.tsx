@@ -35,7 +35,7 @@ export const RenderCheckboxControl: FC<CheckboxControl> = props => {
 
   //Render
   return (
-    <Stack py={16} px={4}>
+    <Stack py={20} px={4}>
       <ControlComponent
         leftSide={<Text size={'lg'}>{name}</Text>}
         rightSide={

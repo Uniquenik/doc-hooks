@@ -1,5 +1,5 @@
-import { StoryItem } from '../type';
 import { uid } from '../utils';
+import { StoryItem } from '../index';
 
 export const createStories = (items: Omit<StoryItem, 'id'>[]): StoryItem[] => {
   return items.map(item => {

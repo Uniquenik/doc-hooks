@@ -1,7 +1,7 @@
-import { Button, ButtonProps, useMantineTheme } from '@mantine/core';
+import { Button, ButtonProps, MantineSize, useMantineTheme } from '@mantine/core';
 import * as React from 'react';
 import { FC } from 'react';
-import { useStringControl } from '../../main';
+import { useNumberControl, useStringControl } from '../../main';
 import { useCheckboxControl } from '../../main';
 import { useRadioControl } from '../../main';
 import { useRecordRadioControl } from '../../main';
@@ -11,22 +11,71 @@ import { useColorRadioControl } from '../../main';
 export const ButtonStory: FC = () => {
   const theme = useMantineTheme();
 
-  const [stringControl] = useStringControl({
-    defaultValue: 'John',
-    name: 'String control',
-    rowsCount: 1,
+  const [variantValue] = useRadioControl({
+    defaultValue: 'Filled',
+    name: 'Button variant',
+    options: ['Filled', 'Light', 'Outline', 'Default', 'Subtle'],
+  });
+
+  const [colorValue] = useColorRadioControl({
+    defaultValue: 'red',
+    name: 'Color',
+    options: [
+      'dark',
+      'gray',
+      'red',
+      'pink',
+      'violet',
+      'indigo',
+      'blue',
+      'cyan',
+      'teal',
+      'green',
+      'lime',
+      'yellow',
+      'orange',
+    ],
+    //or options: ['#FFFFFF', '#000000'],
+    //or options: [theme.colors...]
+  });
+
+  const [radiusValue] = useNumberControl({
+    defaultValue: 10,
+    name: 'Radius',
+    step: 1,
+    min: 0,
+    max: 20,
+  });
+
+  const sliderMarks = [
+    { value: 0, label: 'xs' },
+    { value: 25, label: 'sm' },
+    { value: 50, label: 'md' },
+    { value: 75, label: 'lg' },
+    { value: 100, label: 'xl' },
+  ];
+  const [sizeValue] = useNumberControl({
+    defaultValue: 50,
+    name: 'Size button',
+    step: 25,
+    marks: sliderMarks,
   });
 
   const [checkboxValue] = useCheckboxControl({
     defaultValue: [],
     name: 'Button style',
-    options: ['Disabled', 'Compact'],
+    options: ['Disabled', 'Compact', 'Loading'],
   });
 
-  const [radioValue] = useRadioControl({
-    defaultValue: 'Filled',
-    name: 'Variant',
-    options: ['Filled', 'Light', 'Outline', 'Default', 'Subtle'],
+  const [uppercaseValue] = useSwitchControl({
+    defaultValue: false,
+    name: 'Uppercase',
+  });
+
+  const [stringControl] = useStringControl({
+    defaultValue: 'Name',
+    name: 'Button name',
+    rowsCount: 1,
   });
 
   const [recordRadioValue] = useRecordRadioControl({
@@ -38,27 +87,17 @@ export const ButtonStory: FC = () => {
     ],
   });
 
-  const [uppercaseValue] = useSwitchControl({
-    defaultValue: false,
-    name: 'Uppercase',
-  });
-
-  const [colorValue] = useColorRadioControl({
-    defaultValue: theme.colors.grape[3],
-    name: 'Color',
-    options: [theme.colors.dark[2], theme.colors.grape[3]],
-    //or options: ['#FFFFFF', '#000000'],
-  });
-
   return (
     <div>
       <Button
-        color={recordRadioValue.value}
+        color={colorValue}
+        radius={radiusValue}
         uppercase={uppercaseValue}
-        variant={radioValue.toLowerCase() as ButtonProps['variant']}
-        disabled={checkboxValue.includes('Disabled')}
         compact={checkboxValue.includes('Compact')}
-        style={{ backgroundColor: colorValue }}
+        loading={checkboxValue.includes('Loading')}
+        disabled={checkboxValue.includes('Disabled')}
+        variant={variantValue.toLowerCase() as ButtonProps['variant']}
+        size={sliderMarks.find(item => item.value === sizeValue)?.label as MantineSize}
       >
         {stringControl}
       </Button>

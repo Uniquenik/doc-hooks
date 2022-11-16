@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ControlsContext } from '../context';
 import { useSubjectValue } from '../context/useSubject';
 import { ControlRender } from '../controls/controlRender';
-import { StoryItem } from '../type';
 import StoriesHelper from '../stories/storiesHelper';
 import ReactMarkdown from 'react-markdown';
-import { Box, createStyles, Loader, ScrollArea, Stack } from '@mantine/core';
+import { Box, createStyles, Loader, ScrollArea, Stack, Tabs } from '@mantine/core';
+import { IconAdjustments, IconFileInfo } from '@tabler/icons';
+import { StoryItem } from '../index';
 
 export type IControlLayoutProps = {
   activeStoryKey: string;
@@ -16,7 +17,7 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
   const { activeStoryKey, storiesList } = props;
 
   const { controls: controlsSubject } = useContext(ControlsContext);
-  console.log(controlsSubject);
+
   const controls = useSubjectValue(controlsSubject);
 
   const [markdown, setMarkdown] = useState<string>('');
@@ -47,26 +48,56 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
   }, [activeStoryKey]);
 
   //Renders
+  const renderControls = () => {
+    return (
+      <ScrollArea>
+        <Box px={16} py={8}>
+          {Object.entries(controls).map(([id, control]) => (
+            <ControlRender key={id} control={control} />
+          ))}
+        </Box>
+      </ScrollArea>
+    );
+  };
+
   return (
-    <ScrollArea>
-      <Box p={16} className={classes.controls}>
-        {Object.entries(controls).map(([id, control]) => (
-          <ControlRender key={id} control={control} />
-        ))}
-        {markdownLoading ? (
-          <Stack align={'center'}>
-            <Loader />
-          </Stack>
-        ) : (
-          <ReactMarkdown children={markdown} />
-        )}
-      </Box>
-    </ScrollArea>
+    <Box className={classes.container}>
+      {!markdown && !markdownLoading ? (
+        renderControls()
+      ) : (
+        <Tabs defaultValue={'settings'} inverted className={classes.container}>
+          <Tabs.List grow={true}>
+            <Tabs.Tab value="settings" icon={<IconAdjustments size={25} />}></Tabs.Tab>
+            <Tabs.Tab value="docs" icon={<IconFileInfo size={25} />}></Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="settings" className={classes.container}>
+            {renderControls()}
+          </Tabs.Panel>
+
+          <Tabs.Panel value="docs" className={classes.container}>
+            <ScrollArea>
+              <Box px={16}>
+                {markdownLoading ? (
+                  <Stack align={'center'}>
+                    <Loader />
+                  </Stack>
+                ) : (
+                  <ReactMarkdown children={markdown} />
+                )}
+              </Box>
+            </ScrollArea>
+          </Tabs.Panel>
+        </Tabs>
+      )}
+    </Box>
   );
 };
 
 const useStyles = createStyles(theme => ({
-  controls: {
-    width: '100%',
+  container: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'hidden',
   },
 }));

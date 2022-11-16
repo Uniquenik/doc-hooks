@@ -3,19 +3,21 @@ import { ControlLayout } from './controlLayout';
 import { ActiveStory } from './components/activeStory';
 import { NavigationLayout } from './navigationLayout';
 import { HeaderLayout } from './headerLayout';
-import { AppShell, createStyles } from '@mantine/core';
-import { StoryItem } from '../type';
+import { AppShell, createStyles, useMantineTheme } from '@mantine/core';
 import StoriesHelper from '../stories/storiesHelper';
 import { Allotment } from 'allotment';
 import { useMediaQuery } from '@mantine/hooks';
+import { ReactDocHooksOptions, StoryItem } from '../index';
 
 export type StoryWindowProps<T> = {
   stories: Array<StoryItem>;
+  options?: ReactDocHooksOptions;
 };
 
 export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
-  const { stories } = props;
+  const { stories, options } = props;
 
+  const theme = useMantineTheme();
   const isSM = useMediaQuery('(min-width: 800px)');
 
   const [open, setOpen] = useState(true);
@@ -28,10 +30,21 @@ export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
   const { classes } = useStyles();
 
   return (
-    <AppShell padding={0} header={<HeaderLayout open={open} onClick={() => setOpen(!open)} />}>
+    <AppShell
+      padding={0}
+      style={{ '--focus-border': theme.primaryColor } as React.CSSProperties}
+      header={
+        <HeaderLayout
+          open={open}
+          logo={options?.headerLogo}
+          rightContent={options?.headerRightContent}
+          onClick={() => setOpen(!open)}
+        />
+      }
+    >
       <Allotment minSize={200} separator={open}>
         <Allotment.Pane preferredSize={250} visible={open}>
-          <NavigationLayout activeKey={activeStoryKey} setActiveKey={setActiveStoryKey} storiesList={stories} />
+          <NavigationLayout storiesList={stories} activeKey={activeStoryKey} setActiveKey={setActiveStoryKey} />
         </Allotment.Pane>
         <Allotment.Pane minSize={300} visible={isSM || !open}>
           <Allotment vertical={true} minSize={100}>

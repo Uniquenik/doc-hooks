@@ -2,13 +2,13 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { createStyles, Navbar, TextInput } from '@mantine/core';
 import { UnstyledButton } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import { StoryItem } from '../type';
 import StoriesHelper from '../stories/storiesHelper';
 import { IconSearch } from '@tabler/icons';
+import { StoryItem } from '../index';
 
 interface INavbarProps {
-  activeKey: string;
   storiesList: Array<StoryItem>;
+  activeKey: string;
   setActiveKey: (value: string) => void;
 }
 
@@ -73,8 +73,6 @@ const useStyles = createStyles(theme => ({
     boxSizing: 'border-box',
     display: 'block',
     textDecoration: 'none',
-    borderTopRightRadius: theme.radius.lg,
-    borderBottomRightRadius: theme.radius.lg,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     padding: `0 ${theme.spacing.md}px`,
     fontSize: theme.fontSizes.sm,

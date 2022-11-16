@@ -37,12 +37,13 @@ export const RenderColorRadioControl: FC<ColorRadioControl> = props => {
             {options.map(color => (
               <ColorSwatch
                 key={color}
+                size={30}
                 component="button"
                 color={color}
                 onClick={() => onChange(color)}
                 sx={{ color: '#fff', cursor: 'pointer' }}
               >
-                {value === color && <CheckIcon width={10} />}
+                {value === color && <CheckIcon width={15} />}
               </ColorSwatch>
             ))}
           </Group>

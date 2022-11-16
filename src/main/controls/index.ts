@@ -10,6 +10,7 @@ import { RadioControl } from './radioControl';
 import { KeyValueRadioControl } from './keyValueRadioControl';
 import { SwitchControl } from './switchControl';
 import { ColorRadioControl } from './colorRadioControl';
+import { NumberControl } from './numberControl';
 
 export interface BaseControl<T> {
   id: string;
@@ -26,7 +27,8 @@ export type Control =
   | RadioControl
   | KeyValueRadioControl
   | SwitchControl
-  | ColorRadioControl;
+  | ColorRadioControl
+  | NumberControl;
 
 export const createControlHook = <T extends Control>(
   type: T['type'],
@@ -45,7 +47,7 @@ export const createControlHook = <T extends Control>(
       if (idRef) {
         updateControl(idRef, pick(control as T, updateOnChange as string[]));
       }
-    }, []);
+    }, [updateOnChange.map(key => control[key])]);
 
     useEffect(() => {
       checkContext(inContext);
