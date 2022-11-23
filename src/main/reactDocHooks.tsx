@@ -21,6 +21,13 @@ interface IReactDocHooksProps {
 export const ReactDocHooks = (props: IReactDocHooksProps) => {
   const { options, overrideTheme, stories } = props;
 
+  //Change current color
+  const [currentPrimaryColor, setCurrentPrimaryColor] = useLocalStorage({
+    key: 'mantine-primary-color',
+    defaultValue: 'blue',
+    getInitialValueInEffect: true,
+  });
+
   //Change theme (dark/light)
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
@@ -74,12 +81,23 @@ export const ReactDocHooks = (props: IReactDocHooksProps) => {
     });
   }, []);
 
+  const mantineTheme: MantineThemeOverride = {
+    primaryColor: options?.changePrimaryColor ? currentPrimaryColor : undefined,
+    ...overrideTheme,
+    colorScheme,
+  };
+
   //Render
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ ...overrideTheme, colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={mantineTheme} withGlobalStyles withNormalizeCSS>
         <ControlsContext.Provider value={{ createControl, deleteControl, updateControl, controls, inContext: true }}>
-          <StoryWindow stories={withBoundaryStories} options={options} />
+          <StoryWindow
+            stories={withBoundaryStories}
+            options={options}
+            currentPrimaryColor={currentPrimaryColor}
+            setCurrentPrimaryColor={setCurrentPrimaryColor}
+          />
         </ControlsContext.Provider>
       </MantineProvider>
     </ColorSchemeProvider>

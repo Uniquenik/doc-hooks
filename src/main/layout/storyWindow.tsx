@@ -11,11 +11,13 @@ import { ReactDocHooksOptions, StoryItem } from '../index';
 
 export type StoryWindowProps<T> = {
   stories: Array<StoryItem>;
+  currentPrimaryColor: string;
   options?: ReactDocHooksOptions;
+  setCurrentPrimaryColor: (value: string) => void;
 };
 
 export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
-  const { stories, options } = props;
+  const { stories, options, currentPrimaryColor, setCurrentPrimaryColor } = props;
 
   const theme = useMantineTheme();
   const isSM = useMediaQuery('(min-width: 800px)');
@@ -37,6 +39,9 @@ export const StoryWindow = <T,>(props: StoryWindowProps<T>) => {
         <HeaderLayout
           open={open}
           logo={options?.headerLogo}
+          isCurrentPrimaryColor={options?.changePrimaryColor}
+          currentPrimaryColor={currentPrimaryColor}
+          setCurrentPrimaryColor={setCurrentPrimaryColor}
           rightContent={options?.headerRightContent}
           onClick={() => setOpen(!open)}
         />

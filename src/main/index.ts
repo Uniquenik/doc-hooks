@@ -16,4 +16,5 @@ export type StoryItem = { id: string; name: string; component: FC; markdownStrin
 export type ReactDocHooksOptions = {
   headerLogo?: JSX.Element;
   headerRightContent?: JSX.Element;
+  changePrimaryColor?: boolean;
 };

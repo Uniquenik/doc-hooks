@@ -20,21 +20,7 @@ export const ButtonStory: FC = () => {
   const [colorValue] = useColorRadioControl({
     defaultValue: 'red',
     name: 'Color',
-    options: [
-      'dark',
-      'gray',
-      'red',
-      'pink',
-      'violet',
-      'indigo',
-      'blue',
-      'cyan',
-      'teal',
-      'green',
-      'lime',
-      'yellow',
-      'orange',
-    ],
+    options: Object.keys(theme.colors).map(item => theme.colors[item][5]),
     //or options: ['#FFFFFF', '#000000'],
     //or options: [theme.colors...]
   });
@@ -87,6 +73,7 @@ export const ButtonStory: FC = () => {
     ],
   });
 
+  //Render
   return (
     <div>
       <Button

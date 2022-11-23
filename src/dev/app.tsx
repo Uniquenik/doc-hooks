@@ -19,6 +19,6 @@ const options: ReactDocHooksOptions = {
 
 export const App = () => (
   <>
-    <ReactDocHooks stories={stories} overrideTheme={{ primaryColor: 'green' }} />
+    <ReactDocHooks stories={stories} options={{ changePrimaryColor: true }} />
   </>
 );
