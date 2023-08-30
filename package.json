@@ -1,10 +1,29 @@
 {
   "name": "react-doc-hooks",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Description",
-  "author": "Nikita Vanyuchenko",
+  "author": {
+    "name": "Nikita Vanyuchenko",
+    "email": "postamentbox@bk.com",
+    "url": "https://github.com/Unique_nik"
+  },
+  "build": {
+    "appId": "com.test.electron",
+    "productName": "Test Electron",
+    "copyright": "Test Electron",
+    "linux": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "license": "MIT",
-  "main": "dist/index.js",
+  "homepage": "./",
+  "main": "public/electron.js",
   "types": "dist/types/index.d.ts",
   "files": [
     "dist/*"
@@ -19,32 +38,45 @@
   },
   "scripts": {
     "dev": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build-react": "rescripts build",
     "build": "rm -rf dist && mkdir dist && rollup -c && tsc",
-    "release": "yarn build && npm publish"
+    "release": "yarn build && npm publish",
+    "electron-dev": "concurrently \"BROWSER=none yarn dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "postinstall": "electron-builder",
+    "preelectron-pack": "yarn build-react",
+    "electron-pack": "build-react -mw"
   },
   "peerDependencies": {
-    "react": ">=16.8.0"
+    "react": ">=18.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
-    "@mantine/core": "^5.8.0",
-    "@mantine/hooks": "^5.8.0",
-    "@tabler/icons": "^1.109.0",
+    "@mantine/core": "^6.0.10",
+    "@mantine/hooks": "^6.0.10",
+    "@tabler/icons": "^2.17.0",
+    "@tabler/icons-react": "^2.17.0",
     "allotment": "^1.17.0",
-    "react-error-boundary": "^3.1.4",
+    "electron-is-dev": "^2.0.0",
+    "react-error-boundary": "^4.0.4",
     "react-markdown": "^8.0.3"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "8.3.3",
-    "@rollup/plugin-url": "^7.0.0",
+    "@rescripts/cli": "^0.0.16",
+    "@rescripts/rescript-env": "^0.0.14",
+    "@rollup/plugin-typescript": "11.1.0",
+    "@rollup/plugin-url": "^8.0.1",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "prettier": "2.3.2",
+    "concurrently": "^8.1.0",
+    "electron": "^25.0.1",
+    "electron-builder": "^23.6.0",
+    "prettier": "2.8.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-scripts": "^5.0.0",
-    "rollup": "2.79.1",
-    "typescript": "^4.8.4"
+    "rollup": "3.21.5",
+    "typescript": "^5.0.4",
+    "wait-on": "^7.0.1"
   },
   "browserslist": {
     "production": [

@@ -41,7 +41,7 @@ export const RenderColorRadioControl: FC<ColorRadioControl> = props => {
                 component="button"
                 color={color}
                 onClick={() => onChange(color)}
-                sx={{ color: '#fff', cursor: 'pointer' }}
+                sx={{ cursor: 'pointer' }}
               >
                 {value === color && <CheckIcon width={15} />}
               </ColorSwatch>

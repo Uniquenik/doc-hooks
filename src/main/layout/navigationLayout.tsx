@@ -3,7 +3,7 @@ import { createStyles, Navbar, TextInput } from '@mantine/core';
 import { UnstyledButton } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import StoriesHelper from '../stories/storiesHelper';
-import { IconSearch } from '@tabler/icons';
+import { IconSearch } from '@tabler/icons-react';
 import { StoryItem } from '../index';
 
 interface INavbarProps {
@@ -52,7 +52,7 @@ export const NavigationLayout = (props: INavbarProps) => {
       {searchResults.map((item, index) => {
         return (
           <Navbar.Section key={index} onClick={() => handleItemClick(item.id)}>
-            <UnstyledButton className={cx(classes.link, { [classes.linkActive]: item.id === activeKey })}>
+            <UnstyledButton className={cx(classes.link as any, { [classes.linkActive]: item.id === activeKey } as any)}>
               {item.name}
             </UnstyledButton>
           </Navbar.Section>

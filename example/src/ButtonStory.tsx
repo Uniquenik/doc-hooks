@@ -1,11 +1,13 @@
 import { Button, ButtonProps, MantineSize, useMantineTheme } from '@mantine/core';
 import * as React from 'react';
 import { FC } from 'react';
-import { useNumberControl, useStringControl } from '../../main';
-import { useCheckboxControl } from '../../main';
-import { useRadioControl } from '../../main';
-import { useSwitchControl } from '../../main';
-import { useColorRadioControl } from '../../main';
+import {
+  useCheckboxControl,
+  useColorRadioControl,
+  useNumberControl,
+  useRadioControl, useStringControl,
+  useSwitchControl,
+} from 'react-doc-hooks';
 
 export const ButtonStory: FC = () => {
   const theme = useMantineTheme();

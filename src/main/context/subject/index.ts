@@ -24,6 +24,7 @@ export class Subject<T> {
   getState = (): T => this.value;
 }
 
-export const pick = <T>(object: T, keys: string[]): Partial<T> => {
-  return keys.filter(key => key in object).reduce((result, key) => ({ ...result, [key]: object[key as keyof T] }), {});
+export const pick = <T extends object>(object: T, keys: string[]): { [p: string]: T[keyof T] } => {
+  return keys.filter(key => key in object)
+    .reduce((result, key) => ({ ...result, [key]: object[key as keyof T] }), {});
 };

@@ -5,7 +5,7 @@ import { ControlRender } from '../controls/controlRender';
 import StoriesHelper from '../stories/storiesHelper';
 import ReactMarkdown from 'react-markdown';
 import { Box, createStyles, Loader, ScrollArea, Stack, Tabs } from '@mantine/core';
-import { IconAdjustments, IconFileInfo } from '@tabler/icons';
+import { IconAdjustments, IconFileInfo } from '@tabler/icons-react';
 import { StoryItem } from '../index';
 
 export type IControlLayoutProps = {
@@ -93,7 +93,7 @@ export const ControlLayout: React.FC<IControlLayoutProps> = props => {
   );
 };
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles(() => ({
   container: {
     height: '100%',
     display: 'flex',

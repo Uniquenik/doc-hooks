@@ -52,8 +52,10 @@ export const createControlHook = <T extends Control>(
     useEffect(() => {
       checkContext(inContext);
       const id = uid();
+
       setIdRef(id);
       createControl(id, { ...control, type, value, setValue, id } as T);
+
       return () => deleteControl(id);
     }, []);
 

@@ -33,9 +33,9 @@ export const RenderRadioControl: FC<RadioControl> = props => {
       <ControlComponent
         leftSide={<Text size={'lg'}>{name}</Text>}
         rightSide={
-          <Radio.Group value={value} onChange={onChange}>
+          <Radio.Group sx={{display: 'flex'}} value={value} onChange={onChange}>
             {options.map(option => (
-              <Radio key={option} value={option} label={option} />
+              <Radio pr={12} pb={8} key={option} value={option} label={option} />
             ))}
           </Radio.Group>
         }

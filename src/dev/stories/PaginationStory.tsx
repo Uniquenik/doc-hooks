@@ -7,7 +7,7 @@ interface IPaginationStoryProps {}
 export const PaginationStory: React.FC<IPaginationStoryProps> = () => {
   const [totalValue] = useNumberControl({
     defaultValue: 10,
-    name: 'Total',
+    name: 'Total (Всего)',
     min: 5,
     max: 20,
   });
@@ -28,7 +28,7 @@ export const PaginationStory: React.FC<IPaginationStoryProps> = () => {
 
   return (
     <div>
-      <Pagination siblings={siblingsValue} total={totalValue} page={initialValue} />
+      <Pagination siblings={siblingsValue} total={totalValue} value={initialValue} />
     </div>
   );
 };

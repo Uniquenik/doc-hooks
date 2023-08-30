@@ -13,7 +13,7 @@ import {
   ColorSwatch,
   CheckIcon,
 } from '@mantine/core';
-import { IconMoon, IconPaint, IconSignature, IconSun } from '@tabler/icons';
+import { IconMoon, IconPaint, IconSignature, IconSun } from '@tabler/icons-react';
 
 interface IHeaderProps {
   open: boolean;
@@ -101,7 +101,7 @@ export const HeaderLayout: React.FC<IHeaderProps> = props => {
   );
 };
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,

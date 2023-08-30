@@ -5,3 +5,4 @@ export type initialKeys<T> = Exclude<keyof T, '' | 'type' | 'id' | 'value' | 'se
 export type UseDefaultControl<ControlType extends Control> = (
   control: Pick<ControlType, initialKeys<ControlType>>,
 ) => [ControlType['value'], ControlType['setValue']];
+

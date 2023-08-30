@@ -1,16 +1,22 @@
-import React, {FC} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {MainWindow} from "components-stories/types/main";
-import {ButtonStory} from "../../types/dev/button";
+import { ButtonStory } from './ButtonStory';
+import { createStories, ReactDocHooks, ReactDocHooksOptions } from 'react-doc-hooks';
 
-const stories = {ButtonStory}
+const stories = createStories([
+    { name: 'Button story', component: ButtonStory },
+]);
 
-const App:FC = () => {
-    return(<div>
-        <MainWindow stories={stories}/>
-        </div>
-    )
-}
+const options: ReactDocHooksOptions = {
+    //headerLogo: <></>,
+};
+
+export const App = () => (
+  <>
+      <ReactDocHooks stories={stories} options={{ changePrimaryColor: true }} />
+  </>
+);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<App />);

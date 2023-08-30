@@ -5,7 +5,6 @@ import { Control } from '../controls';
 export type ControlsContextType = {
   controls: Subject<Record<string, Control>>;
   createControl: (id: string, control: Control) => void;
-  //если Partial - ругается, что используемое свойство может быть undefined
   updateControl: (id: string, partial: { [P in keyof Control]?: Control[P] }) => void;
   deleteControl: (id: string) => void;
   inContext: boolean;

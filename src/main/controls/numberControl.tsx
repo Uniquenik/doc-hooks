@@ -9,6 +9,7 @@ export interface NumberControl extends BaseControl<number> {
   min?: number;
   step?: number;
   isInput?: boolean;
+  isPositive?: boolean;
   marks?: { value: number; label: string }[];
 }
 
@@ -19,6 +20,7 @@ type UseNumberControlParams = {
   max?: number;
   step?: number;
   isInput?: boolean;
+  isPositive?: boolean;
   marks?: { value: number; label: string }[];
 };
 
@@ -27,7 +29,7 @@ export const useNumberControl: (params: UseNumberControlParams) => UseNumberCont
   createControlHook<NumberControl>('number', ['min', 'max']);
 
 export const RenderNumberControl: FC<NumberControl> = props => {
-  const { name, value, setValue, min, max, step = 1, isInput, marks } = props;
+  const { name, value, setValue, min, max, step = 1, isInput, marks, isPositive } = props;
 
   //Effects
   /*  useEffect(() => {
@@ -43,14 +45,18 @@ export const RenderNumberControl: FC<NumberControl> = props => {
     if (max && value >= max) {
       setValue(max);
     }
-  }, [min, max]);
+
+    if (isPositive && value < 0) {
+      setValue(0);
+    }
+  }, [min, max, isPositive]);
 
   //Handlers
   const onChange = (value: string) => {
     setValue(Number(value));
   };
 
-  const onInputChange = (value: number | undefined) => {
+  const onInputChange = (value: number | '') => {
     onChange(String(value) || '');
   };
 
